@@ -51,7 +51,8 @@ app.get('/*', (req, res) => {
 //     res.send(result);
 //   });
 // });
-app.listen(3001, function () {
-  console.log('Example app listening on port 3001!');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function () {
+  console.log('Example app listening on port 3000!');
 });
 
