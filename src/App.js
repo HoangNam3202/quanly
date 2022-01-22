@@ -235,7 +235,7 @@ function App() {
       })
         .then(res => res.text())
         .then(async (data) => {
-          if (data == '"remember_denied"') {
+          if (data == '"remember_denied"' || !data) {
             removeCookie('ut', { path: '/' });
             window.location.replace('/login')
             alert('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại.')
