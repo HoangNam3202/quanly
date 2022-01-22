@@ -3,20 +3,20 @@ var app = express();
 var mysql = require('mysql');
 const dotenv = require('dotenv');
 var cors = require('cors');
-// app.use(
-//   function(req, res, next) {
-//     // Mọi domain
-//     res.header("Access-Control-Allow-Origin", "*");
+app.use(
+  function(req, res, next) {
+    // Mọi domain
+    res.header("Access-Control-Allow-Origin", "*");
    
-//     // Domain nhất định
-//     // res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
+    // Domain nhất định
+    // res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
    
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-//   }
-// );
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  }
+);
 
-app.use(cors({origin: 'http://localhost:3000'}));
+// app.use(cors({origin: 'http://localhost:3000'}));
 dotenv.config();
 
 //body parser
