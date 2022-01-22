@@ -15,7 +15,7 @@ var cors = require('cors');
 //     next();
 //   }
 // );
-app.use(cors({origin: 'http://localhost:3001'}));
+app.use(cors({origin: 'https://cafemanagerbmt.herokuapp.com'}));
 dotenv.config();
 
 //body parser
