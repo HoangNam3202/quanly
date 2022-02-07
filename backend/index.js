@@ -26,12 +26,12 @@ app.use(express.json({ limit: '10mb', extended: true }))
 var routes = require('./api/routes')
 routes(app)
 
-app.use(express.static(__dirname + '/build'));
+// app.use(express.static(__dirname + '/build'));
 
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/build' + '/index.html');
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/build' + '/index.html');
+// });
 
 // var conn = mysql.createConnection({
 //   database: process.env.DATABASE_NAME,
