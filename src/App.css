@@ -26,7 +26,23 @@ body {
   flex-direction: row;
   align-items: center;
 }
-
+.home_menu_option:hover{
+  background-color: rgb(245, 245, 245);
+}
+.home_menu_option{
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  margin-left: 10px;
+  border-radius: .5vw;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.home_menu_option img{
+  width: 1.5vw;
+  padding: .5vw 0;
+}
 .home_option_left {
   display: flex;
   align-items: center;
@@ -417,6 +433,11 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
+}
+.home_right_head_item:hover{
+  background-color: #4d6a79;
+  transform: scale(.98);
 }
 
 .home_body_right_content {

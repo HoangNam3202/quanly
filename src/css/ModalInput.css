@@ -1,0 +1,58 @@
+.modal_input_container{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.363);
+    z-index: 11;
+    display: flex;
+    justify-content: center;
+}
+.modal_form{
+    width: 50%;
+    background-color: white;
+    margin: auto;
+    padding: 1vw;
+    border-radius: .5vw;
+}
+.modal_title{
+    font-size: larger;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+}
+.modal_close_btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}
+.modal_input_name, .modal_input_price{
+    width: 80%;
+    margin: auto;
+    margin-top: .5vw;
+    margin-bottom: .5vw;
+}
+.modal_input_name input, .modal_input_price input{
+    width: 100%;
+    padding: 1vw;
+    margin-top: .2vw;
+}
+.modal_btn_add{
+    width: 100%;
+    margin-top: 1vw;
+    display: flex;
+    justify-content: center;
+}
+.modal_btn_add button{
+    width: 10vw;
+    padding: .8vw;
+    background-color: rgb(15, 119, 223);
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: .2vw;
+}
+.modal_btn_add button:hover{
+    background-color: rgb(14, 108, 202);
+}

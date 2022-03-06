@@ -7,9 +7,16 @@ import home_search from './images/home_search.png';
 import home_user from './images/home_user.png'
 import home_trash from './images/home_trash.png'
 import home_empty_table from './images/home_empty_table.png'
+import menu_option from './images/menu.png'
+import close_menu from './images/close_menu.png'
 
 import PlaceApi from './components/PlaceAPI';
 import ModalDele from './components/ModalDele';
+import MenuOptions from './components/MenuOpions';
+import ModalInput from './components/ModalInput';
+import { Link, Route, Routes } from 'react-router-dom';
+import Restaurant from './components/Restaurant';
+import MenuProduct from './components/MenuProduct';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['ut']);
   const [total_Tong, setTotalTong] = useState(0);
@@ -20,11 +27,15 @@ function App() {
   const [phanCap, setphanCapSelected] = useState();
   const [modal_delete, setModalDelete] = useState(false);
   const [suggest_div, setSuggestDiv] = useState(false);
+  const [modal_Menu, setModalMenu] = useState(false);
+  const [handleModal, setHandleModal] = useState(false);
+  const [nameModal, setNameModal] = useState();
+
   const [spXoa, setSpXoa] = useState();
 
   const [khuVuc, setKhuVuc] = useState([]);
   const [Ban, setBan] = useState([]);
-  const [tatCaCTBan, seTatCaCTBan] = useState([]);
+  const [tatCaCTBan, setTatCaCTBan] = useState([]);
   const [chiTietBan, setChiTietBan] = useState([]);
   const [sanPhamSuggest, setSanPhamSuggest] = useState([]);
   const [dataphanCap, setdatapCapSelected] = useState([
@@ -66,10 +77,10 @@ function App() {
   }
   const CapNhatSl = async (idBan, pCap, tenMon, soLuong) => {
     //cap nhat sl san pham theo tung` ban`
-    if( soLuong < 0 ){
+    if (soLuong < 0) {
       alert('Số lượng tối thiểu')
     }
-    else{
+    else {
       await fetch(API_URL + '/capnhatsl', {
         method: 'POST',
         headers: {
@@ -160,7 +171,7 @@ function App() {
     })
       .then(res => res.json())
       .then(data => {
-        seTatCaCTBan(data)
+        setTatCaCTBan(data)
       })
 
   }
@@ -201,28 +212,9 @@ function App() {
       })
 
   }
-  // const LayKhuVuc = async (tendnprops) => {
-  //   //khu vuc
-  //   await fetch(API_URL + '/khuvuc', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       Username: tendnprops
-  //     })
-  //   })
-  //     .then(res => res.text())
-  //     .then(data => {
-  //       setKhuVuc(JSON.parse(data));
-  //       // alert(JSON.parse(data)[0].tenkhuvuc)
-  //       LayBan(tendnprops)
-  //     })
-  // }
   useEffect(async () => {
     if (!cookies.ut) window.location.replace('/login')
-    else if (cookies.ut) {
+    if (cookies.ut) {
       await fetch(API_URL + '/ktdangnhap', {
         method: 'POST',
         headers: {
@@ -233,7 +225,7 @@ function App() {
           User_token: cookies.ut,
         })
       })
-        .then(res => res.text())
+        .then(res => res.json())
         .then(async (data) => {
           if (data == '"remember_denied"' || !data) {
             removeCookie('ut', { path: '/' });
@@ -241,11 +233,11 @@ function App() {
             alert('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại.')
           }
           else {
-            setTenDangNhap(JSON.parse(data))
-            const khuVuc = await PlaceApi.LayKhuVuc(JSON.parse(data));
+            setTenDangNhap(data)
+            const khuVuc = await PlaceApi.LayKhuVuc(data);
             setKhuVuc(khuVuc);
-            LayBan(JSON.parse(data));
-            LayTatCaCTBan(JSON.parse(data));
+            LayBan(data);
+            LayTatCaCTBan(data);
           }
         })
     }
@@ -259,7 +251,7 @@ function App() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          Username: '82 Hung Vuong',
+          Username: tendangnhap,
           keyword: keywordSearch
         })
       })
@@ -331,14 +323,18 @@ function App() {
             </div>
             <div className='home_username'>{tendangnhap}</div>
           </button>
-          <div>
-            <button className='home_btn_logout' onClick={() => {
-              removeCookie('ut', { path: '/' });
-              window.location.replace('/login');
-            }}>
-              Đăng xuất
-            </button>
-          </div>
+          <button
+            onClick={() => { setModalMenu(!modal_Menu) }}
+            className='home_menu_option'
+          >
+            <img src={!modal_Menu ? menu_option : close_menu} className='home_menu_option_img'></img>
+            {modal_Menu ? <MenuOptions
+              setHandleModal={setHandleModal}
+              setNameModal={setNameModal}
+            />
+              : null}
+
+          </button>
         </div>
       </div>
       <section className='home_body'>
@@ -389,9 +385,9 @@ function App() {
                 })}
               </div>
               :
-              <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center',position:'relative', top:'50%',transform : 'translateY(-50%)' }}>
-                <img src={home_empty_table} width='10%'/>
-                <div style={{color:'tomato', fontSize:'1.2vw'}}>* Bàn trống *</div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', top: '50%', transform: 'translateY(-50%)' }}>
+                <img src={home_empty_table} width='10%' />
+                <div style={{ color: 'tomato', fontSize: '1.2vw' }}>* Bàn trống *</div>
               </div>
             }
 
@@ -414,11 +410,14 @@ function App() {
                 Báo chế biến
               </div>
               <div className='home_body_option'>
-                Cái gì đó k thấy
+                . . .
               </div>
             </div>
             <div className='home_body_option_sec'>
-              <div className='home_body_option'>
+              <div
+                onClick={() => { setChiTietBan([]) ;setTatCaCTBan([])}}
+                className='home_body_option'
+              >
                 Thanh toán
               </div>
             </div>
@@ -426,76 +425,43 @@ function App() {
         </div>
         <div className='home_body_right'>
           <div className='home_body_right_head'>
-            <button className='home_right_head_item'>Phòng - Bàn</button>
-            <button className='home_right_head_item'>Thực đơn</button>
+            <Link to='/restaurant' className='home_right_head_item'>Phòng - Bàn</Link>
+            <Link to='/menu' className='home_right_head_item'>Thực đơn</Link>
           </div>
           <div className='home_body_right_content'>
-            {khuVuc.map((e, i) => {
-              return (
-                <div key={i} className='home_table_par'>
-                  <div className='home_table_area'>
-                    <div className='home_table_area_title'>{e.tenkhuvuc}</div>
-                    <div className='home_table_area_noti'>{i} còn trống</div>
-                  </div>
-                  <div className='home_table_table_par'>
-                    {Ban.map((itemB, i) => {
-                      var tongTienCT = 0;
-                      tatCaCTBan.map((itemCT, i) => {
-                        if (itemCT.idban == itemB.idban) {
-                          Number.parseInt(tongTienCT += itemCT.giaSanPham * itemCT.soluong);
-                        }
-                      })
-                      tongTienCT = (tongTienCT).toLocaleString(
-                        undefined,
-                        { minimumFractionDigits: 0 }
-                      )
-                      var backgroundColor = 'rgb(21, 136, 252)';
-                      if (itemB.idban == idBanSelected) {
-                        backgroundColor = 'green'
-                      }
-                      else if (tongTienCT != 0) {
-                        backgroundColor = 'tomato'
-                      }
-                      if (itemB.khuvuc == e.tenkhuvuc) {
-                        const TT = ((i + 1) * 100000).toLocaleString(
-                          undefined,
-                          { minimumFractionDigits: 0 }
-                        );
-                        return (
-                          <button style={{ backgroundColor: backgroundColor }}
-                            onClick={() => {
-                              setBanSelected(itemB.tenBan);
-                              setidBanSelected(itemB.idban);
-                              setphanCapSelected('A');
-                              LayCTBan(itemB.idban, 'A');
-                            }}
-                            className='home_table_table'>
-                            <div className='home_table_table_name'>
-                              {itemB.tenBan}
-                            </div>
-                            <div className='home_table_table_time'>
-                              1 phút
-                            </div>
-                            <div className='home_table_table_money'>
-                              {tongTienCT}
-                            </div>
-                          </button>
-                        );
-                      }
-
-                    }
-                    )}
-                  </div>
-                </div>
-              );
-            }
-            )}
+            <Routes>
+              <Route path='/restaurant' element={
+                <Restaurant
+                  khuVuc={khuVuc}
+                  Ban={Ban}
+                  tatCaCTBan={tatCaCTBan} 
+                  idBanSelected={idBanSelected}
+                  setBanSelected={setBanSelected}
+                  setidBanSelected={setidBanSelected}
+                  setphanCapSelected={setphanCapSelected}
+                  LayCTBan={LayCTBan}
+                  />
+              }>
+              </Route>
+              <Route path='/menu' element={<MenuProduct/>}></Route>
+            </Routes>
           </div>
         </div>
       </section>
+      {handleModal ? <ModalInput
+        nameModal={nameModal}
+        setHandleModal={setHandleModal}
+      />
+        : null}
       {modal_delete
         ?
-        <ModalDele XoaSPCT={XoaSPCT} spXoa={spXoa} BanSelected={BanSelected} phanCap={phanCap} setModalDelete={setModalDelete}></ModalDele>
+        <ModalDele
+          XoaSPCT={XoaSPCT}
+          spXoa={spXoa}
+          BanSelected={BanSelected}
+          phanCap={phanCap}
+          setModalDelete={setModalDelete}
+        ></ModalDele>
         : null
       }
     </div>

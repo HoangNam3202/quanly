@@ -13,7 +13,7 @@ toast.configure();
 function Login() {
     const [cookies_time, setCookieTimes, removeCookie] = useCookies(['lg_t']);
     const [userName, setUserName] = useState('82 Hung Vuong');
-    const [userPassword, setPassword] = useState('hoangnam');
+    const [userPassword, setPassword] = useState('admin');
     const [typeOfPw, setTypeOfPw] = useState('password');
     const [cookies, setCookie] = useCookies(['ut']);
 
@@ -61,14 +61,14 @@ function Login() {
                             if (data == '"not accept"') { // :))
                                 notifyERR('Tên đăng nhập hoặc mật khẩu không chính xác.', 5000)
                                 setCookie('lg_t', Number.parseInt(cookies_time.lg_t) + 1, { path: "/", maxAge: 180 });
-                                // removeCookie('lg_t', { path: '/' });
-
+                                
                             }
                             else {
                                 var userData = JSON.parse(data);
                                 setCookie('ut', userData.token, { path: "/", maxAge: 172800 });
                                 notifySUCCESS('Đăng nhập thành công', 5000);
-                                window.location.replace('/');
+                                window.location.replace('/restaurant');
+                                removeCookie('lg_t', { path: '/' });
 
                             }
                         })
@@ -110,10 +110,10 @@ function Login() {
                                 </div>
                             </div>
                             <button onClick={dangNhap} className='lg_btn_login'>Đăng nhập</button>
-                            <div className='lg_register_par'>
+                            {/* <div className='lg_register_par'>
                                 <button onClick={() => { alert('Nam lười nên chưa làm') }} className='lg_btn_forgot'>Quên mật khẩu ?</button>
                                 <a onClick={() => { alert('Nam lười nên chưa làm') }} className='lg_btn_register' target='_blank'>Đăng ký</a>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

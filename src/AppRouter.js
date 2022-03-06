@@ -2,10 +2,11 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import Login from './components/Login';
+
 const AppRouter = () => {
     const dataRouter = [
         {
-            path: '/',
+            path: '*',
             component: <App />
         },
         {
@@ -17,9 +18,9 @@ const AppRouter = () => {
         <BrowserRouter>
             <Routes>
                 {dataRouter.map((item, index) => {
-                    return (
-                        <Route key={index} path={item.path} element={item.component}></Route>
-                    );
+                        return (
+                            <Route key={index} path={item.path} element={item.component}></Route>
+                        );
                 })}
             </Routes>
         </BrowserRouter>
