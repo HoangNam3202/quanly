@@ -1,16 +1,59 @@
 import { useState } from 'react';
+import API_URL from '../contants/contants';
 import '../css/ModalInput.css'
 import close_menu from '../images/close_menu.png'
 const ModalInput = (props) => {
-    const { nameModal, setHandleModal } = props;
+    const { 
+        tendangnhap,
+        nameModal,
+        setHandleModal,
+        setKhuVuc,
+    } = props;
     const [nameItem, setNameItem] = useState();
     const [priceItem, setPriceItem] = useState();
 
-    const handleAddPlace = () => {
-        alert(nameItem)
+    const handleAddPlace = async () => {
+        await fetch(API_URL + '/themkhuvuc', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Username: tendangnhap,
+                KhuVuc: nameItem
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                setHandleModal(false)
+                const khuVuc = {
+                    // idkhuvuc: 1, 
+                    tenkhuvuc: nameItem, 
+                    user: tendangnhap
+                };
+                setKhuVuc(prev => [...prev, khuVuc])
+                alert('Thêm khu vực thành công')
+            })
     };
-    const handleAddProduct = () => {
-        alert(nameItem + '-' + priceItem)
+    const handleAddProduct = async () => {
+        await fetch(API_URL + '/themsp', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Username: tendangnhap,
+                tensp: nameItem,
+                giasp: priceItem,
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                setHandleModal(false)
+                alert('Thêm sản phẩm thành công')
+            })
     }
     return (
         <div className="modal_input_container">
@@ -39,7 +82,7 @@ const ModalInput = (props) => {
                         <div>Giá</div>
                         <input
                             type='number'
-                            onKeyDown={(e) =>["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()} 
+                            onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
                             value={priceItem}
                             onChange={(event) => { setPriceItem(event.target.value) }}
                             placeholder='Ex: 10000, 120000, ...'

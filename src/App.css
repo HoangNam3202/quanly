@@ -465,15 +465,22 @@ body {
   font-weight: bold;
   text-transform: uppercase;
 }
-
+.home_table_area_noti:hover{
+  background-color: rgb(200, 223, 245);
+}
 .home_table_area_noti {
   background-color: rgb(212, 234, 255);
   color: rgb(21, 136, 252);
   padding: .4vw;
   border-radius: .5vw;
   font-size: 1vw;
+  display: flex;
+  justify-content: center;
 }
-
+.home_table_area_noti img {
+  cursor: pointer;
+  width: 1vw;
+}
 .home_table_table_par {
   display: flex;
   flex-direction: row;

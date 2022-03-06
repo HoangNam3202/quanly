@@ -1,4 +1,5 @@
 import { memo } from "react";
+import menu_option from '../images/menu.png'
 
 const Restaurant = (props) => {
     const {
@@ -18,7 +19,9 @@ const Restaurant = (props) => {
                     <div key={i} className='home_table_par'>
                         <div className='home_table_area'>
                             <div className='home_table_area_title'>{e.tenkhuvuc}</div>
-                            <div className='home_table_area_noti'>{i} còn trống</div>
+                            <div className='home_table_area_noti'>
+                                <img src={menu_option}></img>
+                            </div>
                         </div>
                         <div className='home_table_table_par'>
                             {Ban.map((itemB, i) => {
@@ -57,7 +60,7 @@ const Restaurant = (props) => {
                                                 {itemB.tenBan}
                                             </div>
                                             <div className='home_table_table_time'>
-                                                {tongTienCT > 0 ? '1 phút' : '0 phút'} 
+                                                {tongTienCT > 0 ? '1 phút' : '0 phút'}
                                             </div>
                                             <div className='home_table_table_money'>
                                                 {tongTienCT}
@@ -76,4 +79,4 @@ const Restaurant = (props) => {
         </div>
     );
 }
-export default memo(Restaurant) ;
+export default memo(Restaurant);

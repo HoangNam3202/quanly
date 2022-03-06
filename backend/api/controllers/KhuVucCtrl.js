@@ -11,4 +11,12 @@ module.exports = {
             }
         })
     },
+    ThemKhuVuc : (req, res) => {
+        const username = req.body.Username; 
+        const khuvuc = req.body.KhuVuc; 
+        const sql = `Insert into khuvuc (tenkhuvuc, user) Values(? , ?)`;
+        conn.query(sql, [khuvuc, username], (err, result) => {
+            res.json('add success')
+        })
+    },
 }

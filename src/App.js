@@ -415,7 +415,7 @@ function App() {
             </div>
             <div className='home_body_option_sec'>
               <div
-                onClick={() => { setChiTietBan([]) ;setTatCaCTBan([])}}
+                onClick={() => { setChiTietBan([]); setTatCaCTBan([]) }}
                 className='home_body_option'
               >
                 Thanh toán
@@ -434,23 +434,25 @@ function App() {
                 <Restaurant
                   khuVuc={khuVuc}
                   Ban={Ban}
-                  tatCaCTBan={tatCaCTBan} 
+                  tatCaCTBan={tatCaCTBan}
                   idBanSelected={idBanSelected}
                   setBanSelected={setBanSelected}
                   setidBanSelected={setidBanSelected}
                   setphanCapSelected={setphanCapSelected}
                   LayCTBan={LayCTBan}
-                  />
+                />
               }>
               </Route>
-              <Route path='/menu' element={<MenuProduct/>}></Route>
+              <Route path='/menu' element={<MenuProduct />}></Route>
             </Routes>
           </div>
         </div>
       </section>
       {handleModal ? <ModalInput
+        tendangnhap={tendangnhap}
         nameModal={nameModal}
         setHandleModal={setHandleModal}
+        setKhuVuc={setKhuVuc}
       />
         : null}
       {modal_delete

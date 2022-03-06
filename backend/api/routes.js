@@ -8,6 +8,7 @@ module.exports = function(app){
     //khu vuc
     const khuVucCtrl = require('./controllers/KhuVucCtrl')
     app.route('/khuvuc').post(khuVucCtrl.KhuVuc)
+    app.route('/themkhuvuc').post(khuVucCtrl.ThemKhuVuc)
 
     //ban
     const banCtrl = require('./controllers/BanCtrl')
@@ -15,7 +16,8 @@ module.exports = function(app){
 
     //san pham
     const SanPhamCtrl = require('./controllers/SanPhamCtrl')
-    app.route('/search').post(SanPhamCtrl.SearchSp)
+    app.route('/search').post(SanPhamCtrl.TimKiemSP)
+    app.route('/themsp').post(SanPhamCtrl.ThemSanPham)
 
     //chi tiet ban
     const ChiTietCtrl = require('./controllers/ChiTietCtrl')
